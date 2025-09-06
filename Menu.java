@@ -3,7 +3,7 @@ package Listas_Generalizadas;
 import java.util.Scanner;
 
 public class Menu {
-    // ArbolGenealogico AG = new ArbolGenealogico();
+    ArbolGenealogico AG = new ArbolGenealogico();
 
     public Menu() {
         boolean aux = true;
@@ -39,7 +39,7 @@ public class Menu {
                     scan.close();
                     break;
                 case 1:
-                    // AG.mostrarArbol(AG.getCabeza());
+                    AG.mostrarArbol(AG.getCabeza());
                     break;
                 default:
                     System.out.println("Ingrese un valor valido");
