@@ -26,6 +26,21 @@ public class ArbolGenealogico {
     }
 
     // Busqueda por cedula
+    public Nodo buscarPorCedula(Nodo nodo, String cedula) {
+        if (nodo == null) {
+            return null;
+        }
+        if (nodo.getCedula().equals(cedula)) {
+            return nodo;
+        }
+        // Buscar en los hijos
+        Nodo resultado = buscarPorCedula(nodo.getLigalista(), cedula);
+        if (resultado != null) {
+            return resultado;
+        }
+        // Buscar en los hermanos
+        return buscarPorCedula(nodo.getLiga(), cedula);
+    }
 
     //Mostrar Arbol
     public void mostrarArbol(Nodo nodo, String prefijo) {
@@ -46,6 +61,7 @@ public class ArbolGenealogico {
     }
     // Registrar por orden de cedula
 
-    // Eliminar desde la cedula
+    // Actualizar
+
 
 }
