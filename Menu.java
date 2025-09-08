@@ -39,7 +39,40 @@ public class Menu {
                     scan.close();
                     break;
                 case 1:
+                    scan.nextLine(); // limpiar buffer antes de mostrar
                     AG.mostrarArbol(AG.getCabeza(), "");
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 2:
+                    scan.nextLine(); // limpiar buffer antes de leer cadenas
+                    System.out.print("Ingrese el nombre: ");
+                    String nombre = scan.nextLine();
+
+                    System.out.print("Ingrese la cédula: ");
+                    String cedula = scan.nextLine();
+
+                    System.out.print("Ingrese la edad: ");
+                    int edad = scan.nextInt();
+                    scan.nextLine(); // limpiar buffer
+
+                    if (AG.getCabeza() == null) {
+                        AG.insertarPersona(nombre, cedula, edad, null);
+                    } else {
+                        System.out.print("Ingrese la cédula del padre: ");
+                        String cedulaPadre = scan.nextLine();
+                        AG.insertarPersona(nombre, cedula, edad, cedulaPadre);
+                    }
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 4:
+                    System.out.print("Ingrese la cédula del hijo: ");
+                    scan.nextLine(); // limpiar buffer
+                    String cedulaHijo = scan.nextLine();
+                    AG.mostrarPadre(cedulaHijo);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
                     break;
                 default:
                     System.out.println("Ingrese un valor valido");
