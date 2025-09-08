@@ -66,11 +66,57 @@ public class Menu {
                     System.out.println("Presione Enter para continuar...");
                     scan.nextLine();
                     break;
+                case 3:
+                    System.out.println("1. Actualizar nombre");
+                    System.out.println("2. Actualizar edad");
+                    System.out.print("Seleccione una opción: ");
+                    int opcion = scan.nextInt();
+                    scan.nextLine(); // limpiar buffer
+                    switch (opcion) {
+                        case 1:
+                            System.out.print("Ingrese la cédula de la persona a actualizar: ");
+                            String cedulaActualizar = scan.nextLine();
+                            System.out.print("Ingrese el nuevo nombre: ");
+                            String nuevoNombre = scan.nextLine();
+                            AG.actualizarNombre(cedulaActualizar, nuevoNombre);
+                            System.out.println("Presione Enter para continuar...");
+                            scan.nextLine();
+                            break;
+                        case 2:
+                            System.out.print("Ingrese la cédula de la persona a actualizar: ");
+                            String cedulaActualizarEdad = scan.nextLine();
+                            System.out.print("Ingrese la nueva edad: ");
+                            int nuevaEdad = scan.nextInt();
+                            AG.actualizarEdad(cedulaActualizarEdad, nuevaEdad);
+                            System.out.println("Presione Enter para continuar...");
+                            scan.nextLine();
+                            break;
+                        default:
+                            System.out.println("Opción no válida.");
+                            break;
+                    }
+                    break;
                 case 4:
                     System.out.print("Ingrese la cédula del hijo: ");
                     scan.nextLine(); // limpiar buffer
                     String cedulaHijo = scan.nextLine();
                     AG.mostrarPadre(cedulaHijo);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 5:
+                    System.out.print("Ingrese la cédula del padre: ");
+                    scan.nextLine(); // limpiar buffer
+                    String cedulaPadreHijos = scan.nextLine();
+                    AG.mostrarHijos(cedulaPadreHijos);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 7:
+                    System.out.print("Ingrese la cédula de la persona: ");
+                    scan.nextLine(); // limpiar buffer
+                    String cedulaAncestros = scan.nextLine();
+                    AG.mostrarAncestros(cedulaAncestros);
                     System.out.println("Presione Enter para continuar...");
                     scan.nextLine();
                     break;
