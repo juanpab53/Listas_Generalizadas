@@ -44,7 +44,6 @@ public class ArbolGenealogico {
     }
 
     //Mostrar Arbol
-
     public void mostrarArbol(Nodo nodo, String prefijo) {
         if (nodo == null) {
             // Solo mostrar mensaje si es la raíz y no hay árbol
@@ -67,7 +66,6 @@ public class ArbolGenealogico {
             mostrarArbol(nodo.getLiga(), prefijo);
         }
     }
-
 
     // Insertar persona
     public void insertarPersona(String nombre, String cedula, int edad, String cedulaPadre) {
@@ -94,8 +92,6 @@ public class ArbolGenealogico {
             }
             hijo.setLiga(nuevo);
         }
-
-
         padre.setSw(1); // marcar al nodo como padre
         System.out.println(nombre + " fue agregado como hijo de " + padre.getNombre());
     }
@@ -105,14 +101,12 @@ public class ArbolGenealogico {
         Nodo padre = buscarPadre(cabeza, cedulaHijo);
         if (padre == null) {
             System.out.println("No se encontro el padre.");
-        }
-        else {
+        } else {
             String datos = padre.getNombre() + " (" + padre.getCedula() + ", " + padre.getEdad() + " años)";
             System.out.println("Padre: " + datos);
         }
     }
 
-    // Metodo auxiliar para buscar el padre
     private Nodo buscarPadre(Nodo nodo, String cedulaHijo) {
         if (nodo == null) return null;
         Nodo hijo = nodo.getLigalista();
@@ -127,10 +121,65 @@ public class ArbolGenealogico {
         return buscarPadre(nodo.getLiga(), cedulaHijo);
     }
 
-    // Registrar por orden de cedula
+    //Mostrar hijos
+    public void mostrarHijos(String cedulaPadre) {
+        Nodo padre = buscarPorCedula(cabeza, cedulaPadre);
+        if (padre == null) {
+            System.out.println("No se encontró el padre con esa cédula.");
+            return;
+        }
+        if(padre.getLigalista()==null)
+        {
+            System.out.println(padre.getNombre() + " no tiene hijos.");
+            return;
+        }
+        System.out.println("Hijos de "+padre.getNombre()+":");
+        Nodo hijo = padre.getLigalista();
+        while(hijo != null) {
+            String datos = hijo.getNombre() + " (" + hijo.getCedula() + ", " + hijo.getEdad() + " años)";
+            System.out.println("- " + datos);
+            hijo = hijo.getLiga();
+        }
+    }
 
-    // Actualizar
+    //Mostrar ancestros
+    public void mostrarAncestros(String cedula) {
+        Nodo nodo = buscarPorCedula(cabeza, cedula);
+        if (nodo == null) {
+            System.out.println("No se encontró la persona con esa cédula.");
+            return;
+        }
+        System.out.println("Ancestros de " + nodo.getNombre() + ":");
+        mostrarAncestrosRecursivo(cabeza, cedula);
+    }
 
+    public void mostrarAncestrosRecursivo(Nodo nodo, String cedula) {
+        Nodo padre = buscarPadre(nodo, cedula);
+        if (padre != null) {
+            System.out.println("- " + padre.getNombre() + " (" + padre.getCedula() + ", " + padre.getEdad() + " años)");
+            mostrarAncestrosRecursivo(nodo, padre.getCedula());
+        }
+    }
+    // Actualizar nombre
+    public void actualizarNombre(String cedula, String nuevoNombre) {
+        Nodo nodo = buscarPorCedula(cabeza, cedula);
+        if (nodo != null) {
+            nodo.setNombre(nuevoNombre);
+            System.out.println("Nombre actualizado a: " + nuevoNombre);
+        } else {
+            System.out.println("No se encontró el nodo con la cédula proporcionada.");
+        }
+    }
 
-    // "prueba de github"
+    // Actualizar edad
+    public void actualizarEdad(String cedula, int nuevaEdad) {
+        Nodo nodo = buscarPorCedula(cabeza, cedula);
+        if (nodo != null) {
+            nodo.setEdad(nuevaEdad);
+            System.out.println("Edad actualizada a: " + nuevaEdad);
+        } else {
+            System.out.println("No se encontró el nodo con la cédula proporcionada.");
+        }
+    }
+
 }
