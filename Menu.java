@@ -112,6 +112,14 @@ public class Menu {
                     System.out.println("Presione Enter para continuar...");
                     scan.nextLine();
                     break;
+                case 6:
+                    System.out.print("Ingrese la cédula de la persona: ");
+                    scan.nextLine(); // limpiar buffer
+                    String cedulaHermano = scan.nextLine();
+                    AG.mostrarHermanos(cedulaHermano);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
                 case 7:
                     System.out.print("Ingrese la cédula de la persona: ");
                     scan.nextLine(); // limpiar buffer
@@ -119,6 +127,52 @@ public class Menu {
                     AG.mostrarAncestros(cedulaAncestros);
                     System.out.println("Presione Enter para continuar...");
                     scan.nextLine();
+                    break;
+                case 8:
+                    System.out.print("Ingrese la cédula de la persona: ");
+                    scan.nextLine(); // limpiar buffer
+                    String cedulaDesc = scan.nextLine();
+                    AG.mostrarDescendientes(cedulaDesc);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 9:
+                    AG.mostrarNodoMayorGrado();
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 10:
+                    AG.mostrarNodoMayorNivel();
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 11:
+                    int altura = AG.alturaArbol();
+                    System.out.println("La altura del árbol es: " + altura);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 12:
+                    System.out.print("Ingrese la cédula del registro: ");
+                    scan.nextLine(); // limpiar buffer
+                    String cedulaNivel = scan.nextLine();
+                    AG.mostrarNivelRegistro(cedulaNivel);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine();
+                    break;
+                case 13:
+                    System.out.print("Ingrese el nivel que desea mostrar: ");
+                    int nivelMostrar = scan.nextInt();
+                    AG.mostrarRegistrosNivel(nivelMostrar);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine(); // limpiar buffer
+                    break;
+                case 14:
+                    System.out.print("Ingrese el nivel que desea eliminar: ");
+                    int nivelEliminar = scan.nextInt();
+                    AG.eliminarNodosNivel(nivelEliminar);
+                    System.out.println("Presione Enter para continuar...");
+                    scan.nextLine(); // limpiar buffer
                     break;
                 default:
                     System.out.println("Ingrese un valor valido");
