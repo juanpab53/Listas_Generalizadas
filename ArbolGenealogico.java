@@ -1,7 +1,6 @@
 package Listas_Generalizadas;
 
 import javax.swing.*;
-import java.util.Scanner;
 
 public class ArbolGenealogico {
 
@@ -182,4 +181,17 @@ public class ArbolGenealogico {
         }
     }
 
+    /* Mostrar descendientes
+    public void mostrardescendientes(Nodo nodo, String cedula) {
+        Nodo nodoaux = buscarPorCedula(cabeza, cedula);
+        if (nodoaux != null) {
+            if (nodoaux.getSw()== 1){
+                System.out.println("descendientes de " + nodoaux.getNombre() + ":");
+                mostrardescendientesrecursivo(cabeza, cedula);
+            }
+
+            }
+        }
+
+     */
 }
