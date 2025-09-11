@@ -1,7 +1,6 @@
 package Listas_Generalizadas;
 
 import javax.swing.*;
-import java.util.Scanner;
 
 public class ArbolGenealogico {
 
