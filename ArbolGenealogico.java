@@ -304,7 +304,11 @@ public class ArbolGenealogico {
 
     // 11. mostrar altura del arbol
     public int alturaArbol() {
-        return calcularAltura(cabeza);
+        int aux = calcularAltura(cabeza);
+        if (aux == -1) {
+            System.out.println("El árbol está vacío.");
+        }
+        return aux;
     }
 
     private int calcularAltura(Nodo nodo) {
@@ -351,6 +355,7 @@ public class ArbolGenealogico {
         return buscarNivel(actual.getLiga(), cedula, nivel);
     }
 
+
     // 13. Mostrar registros de un nivel dado
     public void mostrarRegistrosNivel(int nivelObjetivo) {
         if (cabeza == null) {
@@ -375,41 +380,43 @@ public class ArbolGenealogico {
         mostrarRegistrosNivelRec(actual.getLiga(), nivel, nivelObjetivo);
     }
 
-    // 14. Eliminar todos los nodos en un nivel dado
+    /*
+     -> 14. Eliminar todos los nodos en un nivel dado
     public void eliminarNodosNivel(int nivelObjetivo) {
         if (cabeza == null) {
             System.out.println("El arbol esta vacio.");
             return;
         }
 
-        // Caso especial: eliminar nivel 0 (la raíz)
+        -> Caso especial: eliminar nivel 0 (la raíz)
         if (nivelObjetivo == 0) {
             cabeza = null; // borrar el arbol
             System.out.println("Se elimino la raiz");
             return;
         }
 
-        // Llamada recursiva desde la cabeza
+        -> Llamada recursiva desde la cabeza
         cabeza.setLigalista(eliminarNodosNivelRec(cabeza.getLigalista(), 1, nivelObjetivo));
         cabeza.setLiga(eliminarNodosNivelRec(cabeza.getLiga(), 0, nivelObjetivo));
         System.out.println("Nodos en el nivel " + nivelObjetivo + " eliminados.");
     }
 
-    // Recursivo: devuelve el nodo después de eliminar (puede ser null)
+    -> Recursivo: devuelve el nodo después de eliminar (puede ser null)
     private Nodo eliminarNodosNivelRec(Nodo actual, int nivel, int nivelObjetivo) {
         if (actual == null) return null;
 
         if (nivel == nivelObjetivo) {
-            // cortar el subarbol
+            -> cortar el subarbol
             return null;
         }
 
-        // procesar hijos (nivel+1)
+        -> procesar hijos (nivel+1)
         actual.setLigalista(eliminarNodosNivelRec(actual.getLigalista(), nivel + 1, nivelObjetivo));
 
-        // procesar hermanos (mismo nivel)
+        -> procesar hermanos (mismo nivel)
         actual.setLiga(eliminarNodosNivelRec(actual.getLiga(), nivel, nivelObjetivo));
 
         return actual;
     }
+    */
 }
