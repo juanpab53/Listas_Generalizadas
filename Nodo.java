@@ -52,10 +52,6 @@ public class Nodo {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
     // edad
     public int getEdad() {
         return edad;
