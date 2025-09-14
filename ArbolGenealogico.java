@@ -1,7 +1,5 @@
 package Listas_Generalizadas;
 
-import javax.swing.*;
-
 public class ArbolGenealogico {
 
     // Atributos
@@ -42,7 +40,7 @@ public class ArbolGenealogico {
         return buscarPorCedula(nodo.getLiga(), cedula);
     }
 
-    //Mostrar Arbol
+    //1. Mostrar todos los datos del arbol
     public void mostrarArbol(Nodo nodo, String prefijo) {
         if (nodo == null) {
             // Solo mostrar mensaje si es la raíz y no hay árbol
@@ -66,7 +64,7 @@ public class ArbolGenealogico {
         }
     }
 
-    // Insertar persona
+    //2. insertar persona
     public void insertarPersona(String nombre, String cedula, int edad, String cedulaPadre) {
         Nodo nuevo = new Nodo(nombre, cedula, edad, null, null);
 
@@ -95,7 +93,28 @@ public class ArbolGenealogico {
         System.out.println(nombre + " fue agregado como hijo de " + padre.getNombre());
     }
 
-    //Mostrar padre
+    //3. Actualizar datos
+    public void actualizarEdad(String cedula, int nuevaEdad) {
+        Nodo nodo = buscarPorCedula(cabeza, cedula);
+        if (nodo != null) {
+            nodo.setEdad(nuevaEdad);
+            System.out.println("Edad actualizada a: " + nuevaEdad);
+        } else {
+            System.out.println("No se encontró el nodo con la cédula proporcionada.");
+        }
+    }
+
+    public void actualizarNombre(String cedula, String nuevoNombre) {
+        Nodo nodo = buscarPorCedula(cabeza, cedula);
+        if (nodo != null) {
+            nodo.setNombre(nuevoNombre);
+            System.out.println("Nombre actualizado a: " + nuevoNombre);
+        } else {
+            System.out.println("No se encontró el nodo con la cédula proporcionada.");
+        }
+    }
+
+    //4. Mostrar padre
     public void mostrarPadre(String cedulaHijo) {
         Nodo padre = buscarPadre(cabeza, cedulaHijo);
         if (padre == null) {
@@ -120,7 +139,7 @@ public class ArbolGenealogico {
         return buscarPadre(nodo.getLiga(), cedulaHijo);
     }
 
-    //Mostrar hijos
+    // 5. Mostrar hijos
     public void mostrarHijos(String cedulaPadre) {
         Nodo padre = buscarPorCedula(cabeza, cedulaPadre);
         if (padre == null) {
@@ -140,8 +159,7 @@ public class ArbolGenealogico {
             hijo = hijo.getLiga();
         }
     }
-
-    // Mostrar hermanos
+    //6. Mostrar  hermanos
     public void mostrarHermanos(String cedula) {
         Nodo persona = buscarPorCedula(cabeza, cedula);
         if (persona == null) {
@@ -173,8 +191,7 @@ public class ArbolGenealogico {
         }
     }
 
-
-    //Mostrar ancestros
+    // 7. Mostrar ancestros
     public void mostrarAncestros(String cedula) {
         Nodo nodo = buscarPorCedula(cabeza, cedula);
         if (nodo == null) {
@@ -192,29 +209,8 @@ public class ArbolGenealogico {
             mostrarAncestrosRecursivo(nodo, padre.getCedula());
         }
     }
-    // Actualizar nombre
-    public void actualizarNombre(String cedula, String nuevoNombre) {
-        Nodo nodo = buscarPorCedula(cabeza, cedula);
-        if (nodo != null) {
-            nodo.setNombre(nuevoNombre);
-            System.out.println("Nombre actualizado a: " + nuevoNombre);
-        } else {
-            System.out.println("No se encontró el nodo con la cédula proporcionada.");
-        }
-    }
 
-    // Actualizar edad
-    public void actualizarEdad(String cedula, int nuevaEdad) {
-        Nodo nodo = buscarPorCedula(cabeza, cedula);
-        if (nodo != null) {
-            nodo.setEdad(nuevaEdad);
-            System.out.println("Edad actualizada a: " + nuevaEdad);
-        } else {
-            System.out.println("No se encontró el nodo con la cédula proporcionada.");
-        }
-    }
-
-    // Mostrar descendientes desde una cedula
+    // 8. Mostrar descendientes
     public void mostrarDescendientes(String cedula) {
         Nodo nodo = buscarPorCedula(cabeza, cedula);
         if (nodo == null) {
@@ -225,7 +221,6 @@ public class ArbolGenealogico {
         mostrarDescendientesRecursivo(nodo.getLigalista(), "  ");
     }
 
-    // Metodo recursivo para mostrar descendientes
     private void mostrarDescendientesRecursivo(Nodo nodo, String prefijo) {
         while (nodo != null) {
             System.out.println(prefijo + "- " + nodo.getNombre() +
@@ -238,7 +233,42 @@ public class ArbolGenealogico {
         }
     }
 
-    // Mostrar nodo con mayor nivel
+    // 9. Mostrar nodo con mayor grado
+    public void mostrarNodoMayorGrado() {
+        if (cabeza == null) {
+            System.out.println("El árbol está vacío.");
+            return;
+        }
+        Nodo[] resultado = new Nodo[1]; // para guardar el nodo con mayor grado
+        int[] maxGrado = { -1 };        // para guardar el grado máximo encontrado
+        calcularMayorGrado(cabeza, resultado, maxGrado);
+        if (resultado[0] != null) {
+            Nodo nodo = resultado[0];
+            System.out.println("Nodo con mayor grado:");
+            System.out.println(nodo.getNombre() + " (" + nodo.getCedula() + ", " + nodo.getEdad() + " años) - Grado " + maxGrado[0]);
+        }
+    }
+
+    //Calcula el mayor grado
+    private void calcularMayorGrado(Nodo actual, Nodo[] resultado, int[] maxGrado) {
+        if (actual == null) return;
+        int grado = 0;
+        Nodo hijo = actual.getLigalista();
+        while (hijo != null) {
+            grado++;
+            hijo = hijo.getLiga();
+        }
+        if (grado > maxGrado[0]) {
+            maxGrado[0] = grado;
+            resultado[0] = actual;
+        }
+        // recorrer hijos
+        calcularMayorGrado(actual.getLigalista(), resultado, maxGrado);
+        // recorrer hermanos (mismo nivel)
+        calcularMayorGrado(actual.getLiga(), resultado, maxGrado);
+    }
+
+    // 10. Mostrar nodo con mayor nivel
     public void mostrarNodoMayorNivel() {
         if (cabeza == null) {
             System.out.println("El árbol está vacío.");
@@ -272,7 +302,31 @@ public class ArbolGenealogico {
         calcularMayorNivel(actual.getLiga(), nivel, resultado, maxNivel);
     }
 
-    // Mostrar el nivel de un registro dado su número
+    // 11. mostrar altura del arbol
+    public int alturaArbol() {
+        int aux = calcularAltura(cabeza);
+        if (aux == -1) {
+            System.out.println("El árbol está vacío.");
+        }
+        return aux;
+    }
+
+    private int calcularAltura(Nodo nodo) {
+        if (nodo == null) return -1; // altura de árbol vacío es -1
+
+        int alturaMaxima = -1;
+        Nodo hijo = nodo.getLigalista();
+        while (hijo != null) {
+            int alturaHijo = calcularAltura(hijo);
+            if (alturaHijo > alturaMaxima) {
+                alturaMaxima = alturaHijo;
+            }
+            hijo = hijo.getLiga();
+        }
+        return alturaMaxima + 1; // sumar 1 por el nivel actual
+    }
+
+    // 12. Mostrar registros de un nivel dado
     public void mostrarNivelRegistro(String cedula) {
         int nivel = buscarNivel(cabeza, cedula, 0);
         if (nivel == -1) {
@@ -301,46 +355,68 @@ public class ArbolGenealogico {
         return buscarNivel(actual.getLiga(), cedula, nivel);
     }
 
-    // Eliminar todos los nodos en un nivel dado
+
+    // 13. Mostrar registros de un nivel dado
+    public void mostrarRegistrosNivel(int nivelObjetivo) {
+        if (cabeza == null) {
+            System.out.println("El arbol esta vacio.");
+            return;
+        }
+        System.out.println("Registros en el nivel " + nivelObjetivo + ":");
+        mostrarRegistrosNivelRec(cabeza, 0, nivelObjetivo);
+    }
+    private void mostrarRegistrosNivelRec(Nodo actual, int nivel, int nivelObjetivo) {
+        if (actual == null) return;
+
+        if (nivel == nivelObjetivo) {
+            String datos = actual.getNombre() + " (" + actual.getCedula() + ", " + actual.getEdad() + " años)";
+            System.out.println("- " + datos);
+        }
+
+        // procesar hijos (nivel+1)
+        mostrarRegistrosNivelRec(actual.getLigalista(), nivel + 1, nivelObjetivo);
+
+        // procesar hermanos (mismo nivel)
+        mostrarRegistrosNivelRec(actual.getLiga(), nivel, nivelObjetivo);
+    }
+
+    /*
+     -> 14. Eliminar todos los nodos en un nivel dado
     public void eliminarNodosNivel(int nivelObjetivo) {
         if (cabeza == null) {
             System.out.println("El arbol esta vacio.");
             return;
         }
 
-        // Caso especial: eliminar nivel 0 (la raíz)
+        -> Caso especial: eliminar nivel 0 (la raíz)
         if (nivelObjetivo == 0) {
             cabeza = null; // borrar el arbol
             System.out.println("Se elimino la raiz");
             return;
         }
 
-        // Llamada recursiva desde la cabeza
+        -> Llamada recursiva desde la cabeza
         cabeza.setLigalista(eliminarNodosNivelRec(cabeza.getLigalista(), 1, nivelObjetivo));
         cabeza.setLiga(eliminarNodosNivelRec(cabeza.getLiga(), 0, nivelObjetivo));
         System.out.println("Nodos en el nivel " + nivelObjetivo + " eliminados.");
     }
 
-    // Recursivo: devuelve el nodo después de eliminar (puede ser null)
+    -> Recursivo: devuelve el nodo después de eliminar (puede ser null)
     private Nodo eliminarNodosNivelRec(Nodo actual, int nivel, int nivelObjetivo) {
         if (actual == null) return null;
 
         if (nivel == nivelObjetivo) {
-            // cortar el subarbol
+            -> cortar el subarbol
             return null;
         }
 
-        // procesar hijos (nivel+1)
+        -> procesar hijos (nivel+1)
         actual.setLigalista(eliminarNodosNivelRec(actual.getLigalista(), nivel + 1, nivelObjetivo));
 
-        // procesar hermanos (mismo nivel)
+        -> procesar hermanos (mismo nivel)
         actual.setLiga(eliminarNodosNivelRec(actual.getLiga(), nivel, nivelObjetivo));
 
         return actual;
     }
-
-
-
-
-
+    */
 }
