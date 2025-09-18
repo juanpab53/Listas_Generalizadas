@@ -380,43 +380,90 @@ public class ArbolGenealogico {
         mostrarRegistrosNivelRec(actual.getLiga(), nivel, nivelObjetivo);
     }
 
-    /*
-     -> 14. Eliminar todos los nodos en un nivel dado
-    public void eliminarNodosNivel(int nivelObjetivo) {
+    // Eliminar todos los nodos de un nivel dado con reestructuración
+    public void eliminarNivel(int nivelObjetivo) {
         if (cabeza == null) {
-            System.out.println("El arbol esta vacio.");
+            System.out.println("El árbol está vacío.");
             return;
         }
 
-        -> Caso especial: eliminar nivel 0 (la raíz)
         if (nivelObjetivo == 0) {
-            cabeza = null; // borrar el arbol
-            System.out.println("Se elimino la raiz");
+            System.out.println("No se puede eliminar la raíz con esta reestructuración.");
             return;
         }
 
-        -> Llamada recursiva desde la cabeza
-        cabeza.setLigalista(eliminarNodosNivelRec(cabeza.getLigalista(), 1, nivelObjetivo));
-        cabeza.setLiga(eliminarNodosNivelRec(cabeza.getLiga(), 0, nivelObjetivo));
-        System.out.println("Nodos en el nivel " + nivelObjetivo + " eliminados.");
+        // Comenzar desde la raíz
+        cabeza.setLigalista(eliminarNivelRec(cabeza.getLigalista(), 1, nivelObjetivo));
+        cabeza.setLiga(eliminarNivelRec(cabeza.getLiga(), 0, nivelObjetivo));
+
+        actualizarSw(cabeza);
+
+        System.out.println("Nivel " + nivelObjetivo + " eliminado con reestructuración.");
     }
 
-    -> Recursivo: devuelve el nodo después de eliminar (puede ser null)
-    private Nodo eliminarNodosNivelRec(Nodo actual, int nivel, int nivelObjetivo) {
+    // 🔄 Metodo recursivo: procesa la lista de nodos hermanos en un nivel
+    private Nodo eliminarNivelRec(Nodo actual, int nivel, int nivelObjetivo) {
         if (actual == null) return null;
 
-        if (nivel == nivelObjetivo) {
-            -> cortar el subarbol
-            return null;
+        Nodo anterior = null;
+        Nodo primero = actual; // referencia al inicio de la lista de hermanos
+
+        while (actual != null) {
+            if (nivel == nivelObjetivo) {
+                // Estamos en el nivel a eliminar
+                Nodo siguiente = actual.getLiga(); // siguiente hermano
+
+                if (actual.getLigalista() == null) {
+                    // Caso: no tiene hijos → se borra el nodo
+                    if (anterior == null) {
+                        primero = siguiente;
+                    } else {
+                        anterior.setLiga(siguiente);
+                    }
+                } else {
+                    // Caso: tiene hijos → el primer hijo sube en lugar del nodo eliminado
+                    Nodo primerHijo = actual.getLigalista();
+                    Nodo ultimoHijo = primerHijo;
+
+                    while (ultimoHijo.getLiga() != null) {
+                        ultimoHijo = ultimoHijo.getLiga();
+                    }
+
+                    // Conectar el último hijo con los hermanos que venían después
+                    ultimoHijo.setLiga(siguiente);
+
+                    if (anterior == null) {
+                        primero = primerHijo;
+                    } else {
+                        anterior.setLiga(primerHijo);
+                    }
+
+                    // El último hijo pasa a ser el "nuevo anterior"
+                    anterior = ultimoHijo;
+                }
+
+                // Pasamos al siguiente hermano original
+                actual = siguiente;
+            } else {
+                // Aún no estamos en el nivel → bajamos a los hijos
+                actual.setLigalista(eliminarNivelRec(actual.getLigalista(), nivel + 1, nivelObjetivo));
+
+                // Seguimos recorriendo los hermanos
+                anterior = actual;
+                actual = actual.getLiga();
+            }
         }
 
-        -> procesar hijos (nivel+1)
-        actual.setLigalista(eliminarNodosNivelRec(actual.getLigalista(), nivel + 1, nivelObjetivo));
-
-        -> procesar hermanos (mismo nivel)
-        actual.setLiga(eliminarNodosNivelRec(actual.getLiga(), nivel, nivelObjetivo));
-
-        return actual;
+        return primero;
     }
-    */
+
+    // Recalcular el sw en en el arbol
+    private void actualizarSw(Nodo nodo) {
+        if (nodo == null) return;
+        nodo.setSw(nodo.getLigalista() != null ? 1 : 0);
+        actualizarSw(nodo.getLigalista());
+        actualizarSw(nodo.getLiga());
+    }
+
+
 }
