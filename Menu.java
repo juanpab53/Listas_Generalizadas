@@ -168,8 +168,8 @@ public class Menu {
                     System.out.println("Presione Enter para continuar...");
                     scan.nextLine(); // limpiar buffer
                     break;
-                    /*
-                case 14:
+
+                /* case 14:
                     System.out.print("Ingrese el nivel que desea eliminar: ");
                     int nivelEliminar = scan.nextInt();
                     AG.eliminarNodosNivel(nivelEliminar);
